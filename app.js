@@ -125,7 +125,7 @@ app.get("/:id", async (req, res) => {//Se crea el edpoint para consultar
     }   
 })
 
-//INSERTAR CON PARAMETROS
+//INSERTAR CON PARAMETROS Jesús Gabriel Morales Tepole
 app.post("/post/Ins/:id/:name/:picture/:price/:category/:description", async (req,res)=>{//Se crea el edpoint para insertar el registro.
     console.log('POST /post')
     const data= new monmodel({//Se carga la información de los parametros en la estructura. 
