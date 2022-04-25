@@ -1,4 +1,5 @@
-﻿//import express from 'express';
+﻿// |->O.o|->>> >>'Jesus Gabriel Morales Tepole'<< <<-|o.O<-|>>>28/04/2022  Se declaran variables de y se descargan sus librerias
+//import express from 'express';
 const express = require('express')
 const { Db } = require('mongodb')
 const app = express()
@@ -7,7 +8,7 @@ const cors = require('cors')
 const Schema = mongoose.Schema;
 const port = process.env.PORT || 4027
 
-const corsOption = {
+const corsOption = { //|->O.o|->>> >>'Jesus Gabriel Morales Tepole: Se agregan Middlewares
     origin: '*',
     credentials: true,
     //access-control-allow-credentials: true,optioSuccessStatus: 200,
@@ -19,15 +20,15 @@ app.use(express.json())
 
 app.use(cors(corsOption))
 
-mongoose.connect("mongodb://localhost:27017/mynewdb",{//Se realiza la conexión a la base de datos. 
+mongoose.connect("mongodb://localhost:27017/mynewdb",{//ABaez 28/04/2022 : Se realiza la conexión a la base de datos. 
     useNewUrlParser:true,
     useUnifiedTopology:true
 }, (err)=> {
-    if(!err)//Si es diferente de vacio.
+    if(!err)//ABaez 28/04/2022 : Si es diferente de vacio.
     {
-        console.log("connected to db")//Se muestra que la conexión se realizo con exito. 
+        console.log("connected to db")//ABaez 28/04/2022 : Se muestra que la conexión se realizo con exito. 
     }else {
-        console.log(`error to db:  ${err}`)//Se muestra mensaje de error al realizar la conexión. 
+        console.log(`error to db:  ${err}`)//ABaez 28/04/2022 : Se muestra mensaje de error al realizar la conexión. 
     }
 })
 
@@ -35,7 +36,7 @@ mongoose.connect("mongodb://localhost:27017/mynewdb",{//Se realiza la conexión 
 //module.exports = mongoose;
 
 //SCHEMA Creación del esquema 
-const sch= { //Se crea la estructura del esquema.
+const sch= { //ABaez 28/04/2022 : Se crea la estructura del esquema.
     id: Number,
     name : String,
     picture: String,
@@ -43,21 +44,22 @@ const sch= { //Se crea la estructura del esquema.
     category: {type: String, enum: ['computer','phone', 'accesories']},
     description: String
 }
-const monmodel=mongoose.model("NEWCOL", sch) //Se carga la estructura en el modelo de mongoose.
+const monmodel=mongoose.model("NEWCOL", sch) //ABaez 28/04/2022 : Se carga la estructura en el modelo de mongoose.
 
 //ESUQUE DE LOS CLIENTES QUE COMPRARO.
-const ClienteSchema = {
+const ClienteSchema = {//ABaez 28/04/2022 : Se crea estructura de la segunda colección
     Nombre: String,
     Fecha_Compra: Date,
     Pago_Con: Number,
     Dirreccion: String,
-    Producto_compra: {type: Schema.ObjectId, ref: "NEWCOL"}
+    Producto_compra: {type: Schema.ObjectId, ref: "NEWCOL"}//ABaez 30/04/2022 : Se crea relación de esquemas mediante ID
 }
 const monmodel_Cli = mongoose.model("Cliente",ClienteSchema)
 
 
-//INSERTAR CLIENTE Jesús Gabriel Morales Tepole
-app.post("/Ins_Cliente/", async (req, res) =>{
+//INSERTAR CLIENTE 
+app.post("/Ins_Cliente/", async (req, res) =>{//'Jesus Gabriel|->O.o|->>> >>30/04/2022: Se crea función para insertar cliente 
+    //en segundo esquema
     console.log('Insertado Cliente') 
     const data = new monmodel_Cli({
         Nombre: req.body.Nombre,
@@ -70,8 +72,8 @@ app.post("/Ins_Cliente/", async (req, res) =>{
     res.json(result);
 })
 
-//CONSULTAR RELACIÓN CON EL CLIENTE Jesús Gabriel Morales Tepole
-app.get("/clientes/", function (req,res){
+//CONSULTAR RELACIÓN CON EL CLIENTE 
+app.get("/clientes/", function (req,res){//'Jesus Gabriel|->O.o|->>> >>30/04/2022: Se crea función para consultar 
     console.log('Consultando registro...')
     monmodel_Cli.find({})
     .populate('Producto_compra')
@@ -82,7 +84,7 @@ app.get("/clientes/", function (req,res){
     })
 })
 
-//DELETE Jesús Gabriel Morales Tepole
+//DELETE 'Jesus Gabriel|->O.o|->>> >>28/04/2022: Se crea funcion para eliminar en primer esquema
 app.delete("/delete/:id", async (req, res) =>{//Se crea el endpoint de eliminar
     try {
         console.log(req.params.id);
@@ -95,7 +97,7 @@ app.delete("/delete/:id", async (req, res) =>{//Se crea el endpoint de eliminar
 })
 
 
-//POST Jesús Gabriel Morales Tepole
+//POST: ABaez 28/04/2022 : Se crea función para insertar en el primer esquema
 app.post("/post/", async (req,res)=>{//Se crea el edpoint para insertar el registro.
     console.log('POST /post')
     const data= new monmodel({//Se carga la información de los parametros en la estructura. 
@@ -110,7 +112,7 @@ app.post("/post/", async (req,res)=>{//Se crea el edpoint para insertar el regis
     res.json(val);
 })
 
-//CONSULTAR
+//CONSULTAR: ABaez 28/04/2022 : Se crea función para consultar en el primer esquema
 app.get("/:id", async (req, res) => {//Se crea el edpoint para consultar
     const result = await monmodel.findOne({_id:req.params.id})//Se realiza la consulta por el _id.
     if (result){//Si la consulta trae información. 
@@ -125,7 +127,7 @@ app.get("/:id", async (req, res) => {//Se crea el edpoint para consultar
     }   
 })
 
-//INSERTAR CON PARAMETROS Jesús Gabriel Morales Tepole
+// 'Jesus Gabriel|->O.o|->>> >>28/04/2022: Se crea función para  insertar con parámetros
 app.post("/post/Ins/:id/:name/:picture/:price/:category/:description", async (req,res)=>{//Se crea el edpoint para insertar el registro.
     console.log('POST /post')
     const data= new monmodel({//Se carga la información de los parametros en la estructura. 
@@ -140,7 +142,7 @@ app.post("/post/Ins/:id/:name/:picture/:price/:category/:description", async (re
     res.json(val);
 })
 
-//ACTUALZIAR REGISTRO CON PARAMETROS
+// 'Jesus Gabriel|->O.o|->>> >>28/04/2022: Función para actualizar registro con parámetros.
 app.put("/camb/:id/:name/:price/:category/:description", async (req, res)=>{
     console.log('Actualizando...Registro')
     const result = await monmodel.updateOne(//Se aplica la función updateOne
@@ -154,7 +156,7 @@ app.put("/camb/:id/:name/:price/:category/:description", async (req, res)=>{
         res.json(result);
 })
 
-//CONSUTAR TODOS LOS REGISTROS
+//Jesus Gabriel|->O.o|->>> >>28/04/2022: FUNCIÓN PARA CONSUTAR TODOS LOS REGISTROS
 app.get("/ConsultarDB/Tabla_Prod", async (req, res) => {
     const result= await monmodel.find({})
     console.log("Registro encontrado")//Se imprime en consola que el registro fue. 
@@ -162,7 +164,7 @@ app.get("/ConsultarDB/Tabla_Prod", async (req, res) => {
 })
 
 
-//ACTUALIZAR
+// ABaez 28/04/2022 : Función para actualizar 
 app.put("/modificar", async (req, res) =>{//Se crea el edpoint para actualizar
     const body = req.body;
     const result_2 = await monmodel.findOne({id:body.id})//Se consulta si el registro a actualizar existe
@@ -186,6 +188,6 @@ app.put("/modificar", async (req, res) =>{//Se crea el edpoint para actualizar
 
 
 
-app.listen(port, () => {
-    console.log(`API REST corriendo en http://localhost: ${port}`)
+app.listen(port, () => {//AJesus Gabriel|->O.o|->>> >>28/04/2022:: Se usa la funcion exprees 
+    console.log(`API REST corriendo en http://localhost: ${port}`)//Jesus Gabriel|->O.o|->>> >>28/04/2022: Muestra mensaje que indica conexion al puerto
 })
